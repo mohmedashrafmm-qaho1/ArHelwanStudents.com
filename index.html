@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متعلقات طلاب الفرقة الأولى - اللغة العربية</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;800&display=swap');
+
+        :root {
+            --bg-color: #000000;
+            --accent-white: #ffffff;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--accent-white);
+            font-family: 'Tajawal', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* تأثير الوميض الأبيض */
+        .flicker-text {
+            animation: flicker 3s infinite;
+        }
+
+        @keyframes flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% {
+                text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff;
+            }
+            20%, 24%, 55% {        
+                text-shadow: none;
+            }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            transition: 0.3s ease;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* لوحة التحكم المخفية */
+        .admin-panel {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 320px;
+            height: 100%;
+            background: #111;
+            z-index: 2000;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 20px;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+            border-left: 1px solid #333;
+        }
+
+        .admin-panel.active {
+            right: 0;
+        }
+
+        input, textarea, select {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            color: white;
+            padding: 10px;
+            width: 100%;
+            margin-bottom: 12px;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        input:focus { border-color: #666; }
+
+        .btn-download {
+            background: #fff;
+            color: #000;
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            display: inline-block;
+            transition: 0.3s;
+        }
+
+        .btn-download:hover { background: #ddd; }
+    </style>
+</head>
+<body>
+
+    <!-- العنوان العلوي -->
+    <header class="w-full py-8 px-4 border-b border-white/10 text-center">
+        <h1 class="text-xl md:text-3xl font-extrabold flicker-text tracking-wide">
+            متعلقات طلاب الفرقة الاولي بكلية الآداب قسم اللغة العربية
+        </h1>
+    </header>
+
+    <main class="flex-grow max-w-5xl mx-auto w-full p-4 space-y-10">
+
+        <!-- قسم آخر الأخبار -->
+        <section>
+            <h2 id="trigger-admin" class="text-red-600 text-2xl font-black mb-4 cursor-pointer select-none">
+                اخر الاخبار
+            </h2>
+            <div id="display-news" class="glass-card p-6 border-r-4 border-red-600 text-lg">
+                سيتم نشر التنبيهات والأخبار هنا..
+            </div>
+        </section>
+
+        <!-- قسم جدول المحاضرات -->
+        <section>
+            <h2 class="text-white text-xl font-bold mb-4 flex items-center gap-2">
+                <span class="w-2 h-6 bg-white block"></span> جدول المحاضرات
+            </h2>
+            <div class="glass-card p-4 text-center">
+                <div id="schedule-placeholder" class="mb-4 bg-white/5 rounded-lg overflow-hidden min-h-[150px] flex items-center justify-center">
+                    <img id="schedule-img" src="" class="max-w-full hidden">
+                    <span id="no-img" class="text-gray-500">لا يوجد صورة للجدول حالياً</span>
+                </div>
+                <a id="download-link" href="#" download class="btn-download">تحميل الجدول</a>
+            </div>
+        </section>
+
+        <!-- قسم الكتب الدراسية -->
+        <section>
+            <h2 class="text-white text-xl font-bold mb-4 flex items-center gap-2">
+                <span class="w-2 h-6 bg-white block"></span> الكتب الدراسية
+            </h2>
+            <div id="books-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- مضافة برمجياً -->
+            </div>
+        </section>
+
+        <!-- قسم ملخصات الطلاب -->
+        <section>
+            <h2 class="text-white text-xl font-bold mb-4 flex items-center gap-2">
+                <span class="w-2 h-6 bg-white block"></span> ملخصات الطلاب
+            </h2>
+            <div id="summaries-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- مضافة برمجياً -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- لوحة التعديل الجانبية -->
+    <div id="adminPanel" class="admin-panel">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-lg font-bold">إدارة المحتوى</h3>
+            <button onclick="toggleAdmin()" class="text-gray-400">إغلاق ×</button>
+        </div>
+
+        <label class="text-sm text-gray-400">تعديل الأخبار:</label>
+        <textarea id="input-news" rows="3"></textarea>
+
+        <label class="text-sm text-gray-400">رابط صورة الجدول:</label>
+        <input type="text" id="input-schedule-url" placeholder="ضع رابط الصورة هنا">
+
+        <div class="border-t border-white/10 my-4 pt-4">
+            <h4 class="text-sm font-bold mb-2">إضافة ملف جديد (كتاب/ملخص):</h4>
+            <input type="text" id="new-item-name" placeholder="اسم المادة">
+            <input type="text" id="new-item-url" placeholder="رابط الملف">
+            <select id="new-item-type">
+                <option value="book">كتاب دراسي</option>
+                <option value="summary">ملخص طالب</option>
+            </select>
+            <button onclick="addItem()" class="w-full bg-blue-700 py-2 rounded font-bold">إضافة</button>
+        </div>
+
+        <button onclick="saveChanges()" class="w-full bg-green-600 py-3 rounded font-bold mt-6">حفظ ونشر التغييرات</button>
+    </div>
+
+    <script>
+        // تخزين البيانات
+        let data = {
+            news: "أهلاً بكم في الموقع الرسمي للفرقة الأولى - قسم اللغة العربية.",
+            schedule: "",
+            books: [],
+            summaries: []
+        };
+
+        // تحميل البيانات من المتصفح
+        function init() {
+            const savedData = localStorage.getItem('arabic_dept_site');
+            if(savedData) data = JSON.parse(savedData);
+            render();
+        }
+
+        function render() {
+            document.getElementById('display-news').innerText = data.news;
+            document.getElementById('input-news').value = data.news;
+
+            // الجدول
+            const img = document.getElementById('schedule-img');
+            const noImg = document.getElementById('no-img');
+            if(data.schedule) {
+                img.src = data.schedule;
+                img.classList.remove('hidden');
+                noImg.classList.add('hidden');
+                document.getElementById('download-link').href = data.schedule;
+                document.getElementById('input-schedule-url').value = data.schedule;
+            }
+
+            // الكتب
+            const bc = document.getElementById('books-container');
+            bc.innerHTML = data.books.map((b, i) => `
+                <div class="glass-card p-4 flex justify-between items-center">
+                    <span>${b.name}</span>
+                    <div class="flex gap-2">
+                        <a href="${b.url}" target="_blank" class="text-blue-400 text-sm">فتح</a>
+                        <button onclick="deleteItem('books', ${i})" class="text-red-500 text-xs">حذف</button>
+                    </div>
+                </div>
+            `).join('');
+
+            // الملخصات
+            const sc = document.getElementById('summaries-container');
+            sc.innerHTML = data.summaries.map((s, i) => `
+                <div class="glass-card p-4 flex justify-between items-center">
+                    <span>${s.name}</span>
+                    <div class="flex gap-2">
+                        <a href="${s.url}" target="_blank" class="text-blue-400 text-sm">فتح</a>
+                        <button onclick="deleteItem('summaries', ${i})" class="text-red-500 text-xs">حذف</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleAdmin() {
+            document.getElementById('adminPanel').classList.toggle('active');
+        }
+
+        // النقر المزدوج على "اخر الاخبار" لفتح التحكم
+        document.getElementById('trigger-admin').ondblclick = toggleAdmin;
+
+        function addItem() {
+            const name = document.getElementById('new-item-name').value;
+            const url = document.getElementById('new-item-url').value;
+            const type = document.getElementById('new-item-type').value;
+            if(!name || !url) return;
+
+            if(type === 'book') data.books.push({name, url});
+            else data.summaries.push({name, url});
+
+            document.getElementById('new-item-name').value = '';
+            document.getElementById('new-item-url').value = '';
+            render();
+        }
+
+        function deleteItem(type, index) {
+            data[type].splice(index, 1);
+            render();
+        }
+
+        function saveChanges() {
+            data.news = document.getElementById('input-news').value;
+            data.schedule = document.getElementById('input-schedule-url').value;
+            localStorage.setItem('arabic_dept_site', JSON.stringify(data));
+            render();
+            toggleAdmin();
+            alert("تم الحفظ بنجاح!");
+        }
+
+        init();
+    </script>
+</body>
+</html>
