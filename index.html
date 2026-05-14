@@ -23,34 +23,38 @@
             flex-direction: column;
         }
 
+        /* تأثير الوميض الأبيض */
         .flicker-text {
             animation: flicker 3s infinite;
         }
 
         @keyframes flicker {
             0%, 18%, 22%, 25%, 53%, 57%, 100% {
-                text-shadow: 0 0 4px #fff, 0 0 11px #fff;
+                text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff;
             }
-            20%, 24%, 55% { text-shadow: none; }
+            20%, 24%, 55% {        
+                text-shadow: none;
+            }
         }
 
         .glass-card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+            border-radius: 12px;
             transition: 0.3s ease;
         }
 
         .glass-card:hover {
-            border-color: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.4);
         }
 
+        /* لوحة التحكم المخفية */
         .admin-panel {
             position: fixed;
             top: 0;
             right: -100%;
-            width: 300px;
+            width: 320px;
             height: 100%;
             background: #111;
             z-index: 2000;
@@ -59,141 +63,148 @@
             box-shadow: -10px 0 30px rgba(0,0,0,0.8);
             border-left: 1px solid #333;
             overflow-y: auto;
-            font-size: 14px;
         }
 
-        .admin-panel.active { right: 0; }
+        .admin-panel.active {
+            right: 0;
+        }
 
         input, textarea, select {
             background: #1a1a1a;
             border: 1px solid #333;
             color: white;
-            padding: 8px;
+            padding: 10px;
             width: 100%;
-            margin-bottom: 10px;
-            border-radius: 5px;
+            margin-bottom: 12px;
+            border-radius: 6px;
             outline: none;
         }
+
+        input:focus { border-color: #666; }
 
         .btn-download {
             background: #fff;
             color: #000;
-            padding: 6px 15px;
-            border-radius: 5px;
+            padding: 8px 20px;
+            border-radius: 6px;
             font-weight: bold;
-            font-size: 14px;
             display: inline-block;
             transition: 0.3s;
         }
+
+        .btn-download:hover { background: #ddd; }
     </style>
 </head>
 <body>
 
-    <header class="w-full py-8 px-4 border-b border-white/10 text-center">
-        <h1 class="text-2xl md:text-4xl font-extrabold flicker-text tracking-wide mb-2">
+    <!-- العنوان العلوي المعدل -->
+    <header class="w-full py-10 px-4 border-b border-white/10 text-center">
+        <h1 class="text-4xl md:text-6xl font-extrabold flicker-text tracking-wider mb-3">
             طلاب آداب عربي 2027
         </h1>
-        <p class="text-sm md:text-base text-gray-400 font-medium">
+        <p class="text-lg md:text-xl text-gray-400 font-medium">
             جامعة العاصمة - كلية الآداب
         </p>
     </header>
 
-    <main class="flex-grow max-w-4xl mx-auto w-full p-4 space-y-8">
+    <main class="flex-grow max-w-5xl mx-auto w-full p-4 space-y-10">
 
+        <!-- قسم آخر الأخبار -->
         <section>
-            <h2 id="trigger-admin" class="text-red-600 text-xl font-black mb-3 cursor-pointer select-none">
+            <h2 id="trigger-admin" class="text-red-600 text-2xl font-black mb-4 cursor-pointer select-none">
                 اخر الاخبار
             </h2>
-            <div id="display-news" class="glass-card p-5 border-r-4 border-red-600 text-base leading-relaxed">
+            <div id="display-news" class="glass-card p-6 border-r-4 border-red-600 text-lg">
                 سيتم نشر التنبيهات والأخبار هنا..
             </div>
         </section>
 
-        <section id="gallery-section" class="hidden">
-            <h2 class="text-white text-lg font-bold mb-4 flex items-center gap-2">
-                <span class="w-2 h-5 bg-white block"></span> معرض الصور
-            </h2>
-            <div id="gallery-container" class="grid grid-cols-2 md:grid-cols-3 gap-3"></div>
-        </section>
-
+        <!-- قسم جدول المحاضرات -->
         <section>
-            <h2 class="text-white text-lg font-bold mb-4 flex items-center gap-2">
-                <span class="w-2 h-5 bg-white block"></span> جدول المحاضرات
+            <h2 class="text-white text-xl font-bold mb-4 flex items-center gap-2">
+                <span class="w-2 h-6 bg-white block"></span> جدول المحاضرات
             </h2>
             <div class="glass-card p-4 text-center">
-                <div class="mb-3 bg-white/5 rounded-lg overflow-hidden min-h-[120px] flex items-center justify-center">
+                <div id="schedule-placeholder" class="mb-4 bg-white/5 rounded-lg overflow-hidden min-h-[150px] flex items-center justify-center">
                     <img id="schedule-img" src="" class="max-w-full hidden">
-                    <span id="no-img" class="text-gray-500 text-sm">لا يوجد صورة للجدول حالياً</span>
+                    <span id="no-img" class="text-gray-500">لا يوجد صورة للجدول حالياً</span>
                 </div>
                 <a id="download-link" href="#" download class="btn-download">تحميل الجدول</a>
             </div>
         </section>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <section>
-                <h2 class="text-white text-lg font-bold mb-3 flex items-center gap-2">
-                    <span class="w-2 h-5 bg-white block"></span> الكتب الدراسية
-                </h2>
-                <div id="books-container" class="space-y-2"></div>
-            </section>
-
-            <section>
-                <h2 class="text-white text-lg font-bold mb-3 flex items-center gap-2">
-                    <span class="w-2 h-5 bg-white block"></span> ملخصات الطلاب
-                </h2>
-                <div id="summaries-container" class="space-y-2"></div>
-            </section>
-        </div>
-
+        <!-- قسم الكتب الدراسية -->
         <section>
-            <h2 class="text-white text-lg font-bold mb-3 flex items-center gap-2">
-                <span class="w-2 h-5 bg-white block"></span> تدريبات اونلاين
+            <h2 class="text-white text-xl font-bold mb-4 flex items-center gap-2">
+                <span class="w-2 h-6 bg-white block"></span> الكتب الدراسية
             </h2>
-            <div id="quizzes-container" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+            <div id="books-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- مضافة برمجياً -->
+            </div>
+        </section>
+
+        <!-- قسم ملخصات الطلاب -->
+        <section>
+            <h2 class="text-white text-xl font-bold mb-4 flex items-center gap-2">
+                <span class="w-2 h-6 bg-white block"></span> ملخصات الطلاب
+            </h2>
+            <div id="summaries-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- مضافة برمجياً -->
+            </div>
+        </section>
+
+        <!-- قسم تدريبات اونلاين (القسم الجديد) -->
+        <section>
+            <h2 class="text-white text-xl font-bold mb-4 flex items-center gap-2">
+                <span class="w-2 h-6 bg-white block"></span> تدريبات اونلاين
+            </h2>
+            <div id="quizzes-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- مضافة برمجياً -->
+            </div>
         </section>
 
     </main>
 
+    <!-- لوحة التعديل الجانبية -->
     <div id="adminPanel" class="admin-panel">
         <div class="flex justify-between items-center mb-6">
-            <h3 class="font-bold">إدارة المحتوى</h3>
-            <button onclick="toggleAdmin()" class="text-gray-400">×</button>
+            <h3 class="text-lg font-bold">إدارة المحتوى</h3>
+            <button onclick="toggleAdmin()" class="text-gray-400">إغلاق ×</button>
         </div>
 
-        <label class="block mb-1 text-gray-400">تعديل الأخبار:</label>
-        <textarea id="input-news" rows="2"></textarea>
+        <label class="text-sm text-gray-400">تعديل الأخبار:</label>
+        <textarea id="input-news" rows="3"></textarea>
 
-        <label class="block mb-1 text-gray-400">رابط صورة الجدول:</label>
-        <input type="text" id="input-schedule-url">
+        <label class="text-sm text-gray-400">رابط صورة الجدول:</label>
+        <input type="text" id="input-schedule-url" placeholder="ضع رابط الصورة هنا">
 
         <div class="border-t border-white/10 my-4 pt-4">
-            <h4 class="font-bold mb-2">إضافة عنصر جديد:</h4>
-            <input type="text" id="new-item-name" placeholder="الاسم / وصف الصورة">
+            <h4 class="text-sm font-bold mb-2">إضافة ملف أو تدريب جديد:</h4>
+            <input type="text" id="new-item-name" placeholder="الاسم (اسم المادة/التدريب)">
             <input type="text" id="new-item-url" placeholder="الرابط">
             <select id="new-item-type">
                 <option value="book">كتاب دراسي</option>
                 <option value="summary">ملخص طالب</option>
                 <option value="quiz">تدريبات اونلاين</option>
-                <option value="image">إضافة صورة للموقع</option>
             </select>
             <button onclick="addItem()" class="w-full bg-blue-700 py-2 rounded font-bold">إضافة</button>
         </div>
 
-        <button onclick="saveChanges()" class="w-full bg-green-600 py-2 rounded font-bold mt-4">حفظ ونشر</button>
+        <button onclick="saveChanges()" class="w-full bg-green-600 py-3 rounded font-bold mt-6">حفظ ونشر التغييرات</button>
     </div>
 
     <script>
+        // تخزين البيانات شاملة القسم الجديد
         let data = {
             news: "أهلاً بكم في الموقع الرسمي لطلاب آداب عربي 2027.",
             schedule: "",
             books: [],
             summaries: [],
-            quizzes: [],
-            images: []
+            quizzes: [] // القسم الجديد في قاعدة البيانات المحلية
         };
 
         function init() {
-            const savedData = localStorage.getItem('arabic_dept_site_v5');
+            const savedData = localStorage.getItem('arabic_dept_site_v2');
             if(savedData) data = JSON.parse(savedData);
             render();
         }
@@ -202,54 +213,80 @@
             document.getElementById('display-news').innerText = data.news;
             document.getElementById('input-news').value = data.news;
 
-            const imgS = document.getElementById('schedule-img');
+            // الجدول
+            const img = document.getElementById('schedule-img');
             const noImg = document.getElementById('no-img');
             if(data.schedule) {
-                imgS.src = data.schedule;
-                imgS.classList.remove('hidden');
+                img.src = data.schedule;
+                img.classList.remove('hidden');
                 noImg.classList.add('hidden');
                 document.getElementById('download-link').href = data.schedule;
                 document.getElementById('input-schedule-url').value = data.schedule;
             }
 
-            const gc = document.getElementById('gallery-container');
-            const gs = document.getElementById('gallery-section');
-            if(data.images && data.images.length > 0) {
-                gs.classList.remove('hidden');
-                gc.innerHTML = data.images.map((img, i) => `
-                    <div class="relative group glass-card overflow-hidden rounded-lg">
-                        <img src="${img.url}" class="w-full h-32 object-cover">
-                        <button onclick="deleteItem('images', ${i})" class="absolute top-1 right-1 bg-red-600 text-white text-[10px] p-1 rounded opacity-0 group-hover:opacity-100 transition">حذف</button>
-                    </div>
-                `).join('');
-            } else { gs.classList.add('hidden'); }
-
+            // وظيفة مساعدة لإنشاء العناصر
             const createCard = (item, index, type) => `
-                <div class="glass-card p-3 flex justify-between items-center text-sm">
-                    <span>${item.name}</span>
+                <div class="glass-card p-4 flex justify-between items-center">
+                    <span class="font-medium">${item.name}</span>
                     <div class="flex gap-3">
-                        <a href="${item.url}" target="_blank" class="text-blue-400 hover:underline">فتح</a>
-                        <button onclick="deleteItem('${type}', ${index})" class="text-red-500">حذف</button>
+                        <a href="${item.url}" target="_blank" class="text-blue-400 text-sm hover:underline">فتح</a>
+                        <button onclick="deleteItem('${type}', ${index})" class="text-red-500 text-xs">حذف</button>
                     </div>
                 </div>
             `;
 
+            // رندر الكتب
             document.getElementById('books-container').innerHTML = data.books.map((b, i) => createCard(b, i, 'books')).join('');
+            
+            // رندر الملخصات
             document.getElementById('summaries-container').innerHTML = data.summaries.map((s, i) => createCard(s, i, 'summaries')).join('');
+
+            // رندر التدريبات أونلاين
             document.getElementById('quizzes-container').innerHTML = (data.quizzes || []).map((q, i) => createCard(q, i, 'quizzes')).join('');
         }
 
-        function toggleAdmin() { document.getElementById('adminPanel').classList.toggle('active'); }
+        function toggleAdmin() {
+            document.getElementById('adminPanel').classList.toggle('active');
+        }
+
         document.getElementById('trigger-admin').ondblclick = toggleAdmin;
 
         function addItem() {
             const name = document.getElementById('new-item-name').value;
             const url = document.getElementById('new-item-url').value;
             const type = document.getElementById('new-item-type').value;
-            if(!url) return;
-            if(type === 'image') {
-                if(!data.images) data.images = [];
-                data.images.push({name: name || 'صورة', url});
+            if(!name || !url) return;
+
+            if(type === 'book') data.books.push({name, url});
+            else if(type === 'summary') data.summaries.push({name, url});
+            else if(type === 'quiz') {
+                if(!data.quizzes) data.quizzes = [];
+                data.quizzes.push({name, url});
+            }
+
+            document.getElementById('new-item-name').value = '';
+            document.getElementById('new-item-url').value = '';
+            render();
+        }
+
+        function deleteItem(type, index) {
+            data[type].splice(index, 1);
+            render();
+        }
+
+        function saveChanges() {
+            data.news = document.getElementById('input-news').value;
+            data.schedule = document.getElementById('input-schedule-url').value;
+            localStorage.setItem('arabic_dept_site_v2', JSON.stringify(data));
+            render();
+            toggleAdmin();
+            alert("تم الحفظ بنجاح!");
+        }
+
+        init();
+    </script>
+</body>
+</html>e || 'صورة', url});
             } else { data[type + 's'].push({name, url}); }
             document.getElementById('new-item-name').value = '';
             document.getElementById('new-item-url').value = '';
