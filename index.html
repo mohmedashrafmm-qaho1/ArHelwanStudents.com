@@ -6,11 +6,11 @@
     <title>طلاب آداب عربي 2027</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;700&display=swap');
 
         :root {
-            --bg-color: #000000;
-            --accent-white: #ffffff;
+            --bg-color: #0b0b0b;
+            --accent-white: #e5e5e5;
         }
 
         body {
@@ -21,16 +21,16 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            font-size: 14px; /* تصغير الخط العام */
         }
 
-        /* تأثير الوميض الأبيض */
         .flicker-text {
             animation: flicker 3s infinite;
         }
 
         @keyframes flicker {
             0%, 18%, 22%, 25%, 53%, 57%, 100% {
-                text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff;
+                text-shadow: 0 0 4px #fff, 0 0 10px #fff;
             }
             20%, 24%, 55% {        
                 text-shadow: none;
@@ -38,29 +38,29 @@
         }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
             transition: 0.3s ease;
         }
 
         .glass-card:hover {
-            border-color: rgba(255, 255, 255, 0.4);
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
         }
 
-        /* لوحة التحكم المخفية */
         .admin-panel {
             position: fixed;
             top: 0;
             right: -100%;
-            width: 320px;
+            width: 300px;
             height: 100%;
-            background: #111;
+            background: #151515;
             z-index: 2000;
             transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             padding: 20px;
-            box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+            box-shadow: -5px 0 20px rgba(0,0,0,0.5);
             border-left: 1px solid #333;
             overflow-y: auto;
         }
@@ -70,141 +70,140 @@
         }
 
         input, textarea, select {
-            background: #1a1a1a;
-            border: 1px solid #333;
+            background: #222;
+            border: 1px solid #444;
             color: white;
-            padding: 10px;
+            padding: 8px;
             width: 100%;
-            margin-bottom: 12px;
-            border-radius: 6px;
-            outline: none;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            font-size: 13px;
         }
-
-        input:focus { border-color: #666; }
 
         .btn-download {
             background: #fff;
             color: #000;
-            padding: 8px 20px;
-            border-radius: 6px;
+            padding: 6px 16px;
+            border-radius: 4px;
             font-weight: bold;
-            display: inline-block;
+            font-size: 13px;
             transition: 0.3s;
         }
-
-        .btn-download:hover { background: #ddd; }
     </style>
 </head>
 <body>
 
-    <!-- العنوان العلوي المعدل -->
-    <header class="w-full py-10 px-4 border-b border-white/10 text-center">
-        <h1 class="text-4xl md:text-6xl font-extrabold flicker-text tracking-wider mb-3">
+    <header class="w-full py-8 px-4 border-b border-white/5 text-center">
+        <h1 class="text-2xl md:text-3xl font-bold flicker-text tracking-tight mb-2">
             طلاب آداب عربي 2027
         </h1>
-        <p class="text-lg md:text-xl text-gray-400 font-medium">
+        <p class="text-sm md:text-base text-gray-500">
             جامعة العاصمة - كلية الآداب
         </p>
     </header>
 
-    <main class="flex-grow max-w-5xl mx-auto w-full p-4 space-y-10">
+    <main class="flex-grow max-w-4xl mx-auto w-full p-6 space-y-8">
 
         <!-- قسم آخر الأخبار -->
         <section>
-            <h2 id="trigger-admin" class="text-red-600 text-2xl font-black mb-4 cursor-pointer select-none">
-                اخر الاخبار
+            <h2 id="trigger-admin" class="text-red-500 text-lg font-bold mb-3 cursor-pointer select-none flex items-center gap-2">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                </span>
+                آخر الأخبار التنبيهية
             </h2>
-            <div id="display-news" class="glass-card p-6 border-r-4 border-red-600 text-lg">
-                سيتم نشر التنبيهات والأخبار هنا..
+            <div id="display-news" class="glass-card p-4 border-r-2 border-red-500 text-sm leading-relaxed text-gray-300">
+                جاري تحميل الأخبار...
             </div>
         </section>
 
-        <!-- قسم جدول المحاضرات -->
-        <section>
-            <h2 class="text-white text-xl font-bold mb-4 flex items-center gap-2">
-                <span class="w-2 h-6 bg-white block"></span> جدول المحاضرات
-            </h2>
-            <div class="glass-card p-4 text-center">
-                <div id="schedule-placeholder" class="mb-4 bg-white/5 rounded-lg overflow-hidden min-h-[150px] flex items-center justify-center">
-                    <img id="schedule-img" src="" class="max-w-full hidden">
-                    <span id="no-img" class="text-gray-500">لا يوجد صورة للجدول حالياً</span>
+        <!-- قسم الجدول والكتب والملخصات (شبكة منظمة) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- الجدول -->
+            <section class="md:col-span-2">
+                <h2 class="text-white text-md font-bold mb-3 flex items-center gap-2">
+                    <span class="w-1 h-4 bg-white block"></span> جدول المحاضرات
+                </h2>
+                <div class="glass-card p-4 text-center">
+                    <div id="schedule-placeholder" class="mb-3 bg-white/5 rounded overflow-hidden min-h-[100px] flex items-center justify-center">
+                        <img id="schedule-img" src="" class="max-w-full hidden">
+                        <span id="no-img" class="text-gray-600 text-xs">لا يوجد صورة للجدول حالياً</span>
+                    </div>
+                    <a id="download-link" href="#" download class="btn-download">تحميل الجدول</a>
                 </div>
-                <a id="download-link" href="#" download class="btn-download">تحميل الجدول</a>
-            </div>
-        </section>
+            </section>
 
-        <!-- قسم الكتب الدراسية -->
-        <section>
-            <h2 class="text-white text-xl font-bold mb-4 flex items-center gap-2">
-                <span class="w-2 h-6 bg-white block"></span> الكتب الدراسية
-            </h2>
-            <div id="books-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- مضافة برمجياً -->
-            </div>
-        </section>
+            <!-- الكتب -->
+            <section>
+                <h2 class="text-white text-md font-bold mb-3 flex items-center gap-2">
+                    <span class="w-1 h-4 bg-blue-500 block"></span> الكتب الدراسية
+                </h2>
+                <div id="books-container" class="space-y-2"></div>
+            </section>
 
-        <!-- قسم ملخصات الطلاب -->
-        <section>
-            <h2 class="text-white text-xl font-bold mb-4 flex items-center gap-2">
-                <span class="w-2 h-6 bg-white block"></span> ملخصات الطلاب
-            </h2>
-            <div id="summaries-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- مضافة برمجياً -->
-            </div>
-        </section>
+            <!-- الملخصات -->
+            <section>
+                <h2 class="text-white text-md font-bold mb-3 flex items-center gap-2">
+                    <span class="w-1 h-4 bg-green-500 block"></span> ملخصات الطلاب
+                </h2>
+                <div id="summaries-container" class="space-y-2"></div>
+            </section>
 
-        <!-- قسم تدريبات اونلاين (القسم الجديد) -->
-        <section>
-            <h2 class="text-white text-xl font-bold mb-4 flex items-center gap-2">
-                <span class="w-2 h-6 bg-white block"></span> تدريبات اونلاين
-            </h2>
-            <div id="quizzes-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- مضافة برمجياً -->
-            </div>
-        </section>
-
+            <!-- تدريبات أونلاين -->
+            <section class="md:col-span-2">
+                <h2 class="text-white text-md font-bold mb-3 flex items-center gap-2">
+                    <span class="w-1 h-4 bg-yellow-500 block"></span> تدريبات أونلاين
+                </h2>
+                <div id="quizzes-container" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+            </section>
+        </div>
     </main>
 
-    <!-- لوحة التعديل الجانبية -->
+    <footer class="py-6 text-center text-gray-600 text-xs border-t border-white/5">
+        &copy; 2026 جميع الحقوق محفوظة لطلاب الدفعة
+    </footer>
+
+    <!-- لوحة التحكم -->
     <div id="adminPanel" class="admin-panel">
         <div class="flex justify-between items-center mb-6">
-            <h3 class="text-lg font-bold">إدارة المحتوى</h3>
-            <button onclick="toggleAdmin()" class="text-gray-400">إغلاق ×</button>
+            <h3 class="text-md font-bold text-white">إدارة المحتوى</h3>
+            <button onclick="toggleAdmin()" class="text-gray-500 hover:text-white text-xl">×</button>
         </div>
 
-        <label class="text-sm text-gray-400">تعديل الأخبار:</label>
+        <label class="text-xs text-gray-500">تعديل شريط الأخبار:</label>
         <textarea id="input-news" rows="3"></textarea>
 
-        <label class="text-sm text-gray-400">رابط صورة الجدول:</label>
-        <input type="text" id="input-schedule-url" placeholder="ضع رابط الصورة هنا">
+        <label class="text-xs text-gray-500">رابط صورة الجدول:</label>
+        <input type="text" id="input-schedule-url">
 
-        <div class="border-t border-white/10 my-4 pt-4">
-            <h4 class="text-sm font-bold mb-2">إضافة ملف أو تدريب جديد:</h4>
-            <input type="text" id="new-item-name" placeholder="الاسم (اسم المادة/التدريب)">
-            <input type="text" id="new-item-url" placeholder="الرابط">
+        <div class="border-t border-white/5 my-4 pt-4">
+            <h4 class="text-xs font-bold text-gray-300 mb-2">إضافة عنصر جديد:</h4>
+            <input type="text" id="new-item-name" placeholder="اسم المادة">
+            <input type="text" id="new-item-url" placeholder="رابط الملف">
             <select id="new-item-type">
                 <option value="book">كتاب دراسي</option>
                 <option value="summary">ملخص طالب</option>
                 <option value="quiz">تدريبات اونلاين</option>
             </select>
-            <button onclick="addItem()" class="w-full bg-blue-700 py-2 rounded font-bold">إضافة</button>
+            <button onclick="addItem()" class="w-full bg-blue-600 hover:bg-blue-500 py-2 rounded text-xs font-bold transition">إضافة سريع</button>
         </div>
 
-        <button onclick="saveChanges()" class="w-full bg-green-600 py-3 rounded font-bold mt-6">حفظ ونشر التغييرات</button>
+        <button onclick="saveChanges()" class="w-full bg-green-700 hover:bg-green-600 py-2 rounded text-xs font-bold mt-4 transition">حفظ التعديلات النهائية</button>
     </div>
 
     <script>
-        // تخزين البيانات شاملة القسم الجديد
         let data = {
             news: "أهلاً بكم في الموقع الرسمي لطلاب آداب عربي 2027.",
             schedule: "",
             books: [],
             summaries: [],
-            quizzes: [] // القسم الجديد في قاعدة البيانات المحلية
+            quizzes: []
         };
 
         function init() {
-            const savedData = localStorage.getItem('arabic_dept_site_v2');
+            const savedData = localStorage.getItem('arabic_dept_v3');
             if(savedData) data = JSON.parse(savedData);
             render();
         }
@@ -213,7 +212,6 @@
             document.getElementById('display-news').innerText = data.news;
             document.getElementById('input-news').value = data.news;
 
-            // الجدول
             const img = document.getElementById('schedule-img');
             const noImg = document.getElementById('no-img');
             if(data.schedule) {
@@ -224,24 +222,18 @@
                 document.getElementById('input-schedule-url').value = data.schedule;
             }
 
-            // وظيفة مساعدة لإنشاء العناصر
             const createCard = (item, index, type) => `
-                <div class="glass-card p-4 flex justify-between items-center">
-                    <span class="font-medium">${item.name}</span>
-                    <div class="flex gap-3">
-                        <a href="${item.url}" target="_blank" class="text-blue-400 text-sm hover:underline">فتح</a>
-                        <button onclick="deleteItem('${type}', ${index})" class="text-red-500 text-xs">حذف</button>
+                <div class="glass-card p-3 flex justify-between items-center">
+                    <span class="text-xs font-medium">${item.name}</span>
+                    <div class="flex gap-2">
+                        <a href="${item.url}" target="_blank" class="text-blue-400 text-xs hover:underline">فتح</a>
+                        <button onclick="deleteItem('${type}', ${index})" class="text-red-900 hover:text-red-500 text-[10px]">حذف</button>
                     </div>
                 </div>
             `;
 
-            // رندر الكتب
             document.getElementById('books-container').innerHTML = data.books.map((b, i) => createCard(b, i, 'books')).join('');
-            
-            // رندر الملخصات
             document.getElementById('summaries-container').innerHTML = data.summaries.map((s, i) => createCard(s, i, 'summaries')).join('');
-
-            // رندر التدريبات أونلاين
             document.getElementById('quizzes-container').innerHTML = (data.quizzes || []).map((q, i) => createCard(q, i, 'quizzes')).join('');
         }
 
@@ -257,15 +249,37 @@
             const type = document.getElementById('new-item-type').value;
             if(!name || !url) return;
 
+            if(!data[type + 's'] && type === 'quiz') data.quizzes = data.quizzes || [];
+            
             if(type === 'book') data.books.push({name, url});
             else if(type === 'summary') data.summaries.push({name, url});
-            else if(type === 'quiz') {
-                if(!data.quizzes) data.quizzes = [];
-                data.quizzes.push({name, url});
-            }
+            else if(type === 'quiz') data.quizzes.push({name, url});
 
             document.getElementById('new-item-name').value = '';
             document.getElementById('new-item-url').value = '';
+            render();
+        }
+
+        function deleteItem(type, index) {
+            if(confirm('هل أنت متأكد من الحذف؟')) {
+                data[type].splice(index, 1);
+                render();
+            }
+        }
+
+        function saveChanges() {
+            data.news = document.getElementById('input-news').value;
+            data.schedule = document.getElementById('input-schedule-url').value;
+            localStorage.setItem('arabic_dept_v3', JSON.stringify(data));
+            render();
+            toggleAdmin();
+            alert("تم التحديث بنجاح");
+        }
+
+        init();
+    </script>
+</body>
+                                                   </html>'';
             render();
         }
 
