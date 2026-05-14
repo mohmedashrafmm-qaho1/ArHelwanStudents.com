@@ -23,7 +23,6 @@
             flex-direction: column;
         }
 
-        /* تأثير الوميض الأبيض */
         .flicker-text {
             animation: flicker 3s infinite;
         }
@@ -49,7 +48,6 @@
             border-color: rgba(255, 255, 255, 0.4);
         }
 
-        /* لوحة التحكم المخفية */
         .admin-panel {
             position: fixed;
             top: 0;
@@ -80,8 +78,6 @@
             outline: none;
         }
 
-        input:focus { border-color: #666; }
-
         .btn-download {
             background: #fff;
             color: #000;
@@ -91,20 +87,26 @@
             display: inline-block;
             transition: 0.3s;
         }
-
-        .btn-download:hover { background: #ddd; }
     </style>
 </head>
 <body>
 
-    <!-- العنوان العلوي المعدل -->
-    <header class="w-full py-10 px-4 border-b border-white/10 text-center">
-        <h1 class="text-4xl md:text-6xl font-extrabold flicker-text tracking-wider mb-3">
-            طلاب آداب عربي 2027
-        </h1>
-        <p class="text-lg md:text-xl text-gray-400 font-medium">
-            جامعة العاصمة - كلية الآداب
-        </p>
+    <!-- العنوان العلوي مع اللوجو -->
+    <header class="w-full py-10 px-6 border-b border-white/10">
+        <div class="max-w-5xl mx-auto flex flex-row items-center justify-center gap-6">
+            <!-- الشعار -->
+            <img src="capital-university-logo.png" alt="شعار جامعة العاصمة" class="w-20 h-20 md:w-28 md:h-28 object-contain">
+            
+            <!-- النصوص -->
+            <div class="text-right">
+                <h1 class="text-3xl md:text-5xl font-extrabold flicker-text tracking-wider mb-2">
+                    طلاب آداب عربي 2027
+                </h1>
+                <p class="text-lg md:text-xl text-gray-400 font-medium">
+                    جامعة العاصمة - كلية الآداب
+                </p>
+            </div>
+        </div>
     </header>
 
     <main class="flex-grow max-w-5xl mx-auto w-full p-4 space-y-10">
@@ -138,9 +140,7 @@
             <h2 class="text-white text-xl font-bold mb-4 flex items-center gap-2">
                 <span class="w-2 h-6 bg-white block"></span> الكتب الدراسية
             </h2>
-            <div id="books-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- مضافة برمجياً -->
-            </div>
+            <div id="books-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </section>
 
         <!-- قسم ملخصات الطلاب -->
@@ -148,19 +148,15 @@
             <h2 class="text-white text-xl font-bold mb-4 flex items-center gap-2">
                 <span class="w-2 h-6 bg-white block"></span> ملخصات الطلاب
             </h2>
-            <div id="summaries-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- مضافة برمجياً -->
-            </div>
+            <div id="summaries-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </section>
 
-        <!-- قسم تدريبات اونلاين (القسم الجديد) -->
+        <!-- قسم تدريبات اونلاين -->
         <section>
             <h2 class="text-white text-xl font-bold mb-4 flex items-center gap-2">
                 <span class="w-2 h-6 bg-white block"></span> تدريبات اونلاين
             </h2>
-            <div id="quizzes-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- مضافة برمجياً -->
-            </div>
+            <div id="quizzes-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </section>
 
     </main>
@@ -179,8 +175,8 @@
         <input type="text" id="input-schedule-url" placeholder="ضع رابط الصورة هنا">
 
         <div class="border-t border-white/10 my-4 pt-4">
-            <h4 class="text-sm font-bold mb-2">إضافة ملف أو تدريب جديد:</h4>
-            <input type="text" id="new-item-name" placeholder="الاسم (اسم المادة/التدريب)">
+            <h4 class="text-sm font-bold mb-2">إضافة عنصر جديد:</h4>
+            <input type="text" id="new-item-name" placeholder="الاسم">
             <input type="text" id="new-item-url" placeholder="الرابط">
             <select id="new-item-type">
                 <option value="book">كتاب دراسي</option>
@@ -190,21 +186,20 @@
             <button onclick="addItem()" class="w-full bg-blue-700 py-2 rounded font-bold">إضافة</button>
         </div>
 
-        <button onclick="saveChanges()" class="w-full bg-green-600 py-3 rounded font-bold mt-6">حفظ ونشر التغييرات</button>
+        <button onclick="saveChanges()" class="w-full bg-green-600 py-3 rounded font-bold mt-6">حفظ التغييرات</button>
     </div>
 
     <script>
-        // تخزين البيانات شاملة القسم الجديد
         let data = {
             news: "أهلاً بكم في الموقع الرسمي لطلاب آداب عربي 2027.",
             schedule: "",
             books: [],
             summaries: [],
-            quizzes: [] // القسم الجديد في قاعدة البيانات المحلية
+            quizzes: []
         };
 
         function init() {
-            const savedData = localStorage.getItem('arabic_dept_site_v2');
+            const savedData = localStorage.getItem('arabic_dept_site_v3');
             if(savedData) data = JSON.parse(savedData);
             render();
         }
@@ -213,7 +208,6 @@
             document.getElementById('display-news').innerText = data.news;
             document.getElementById('input-news').value = data.news;
 
-            // الجدول
             const img = document.getElementById('schedule-img');
             const noImg = document.getElementById('no-img');
             if(data.schedule) {
@@ -224,7 +218,6 @@
                 document.getElementById('input-schedule-url').value = data.schedule;
             }
 
-            // وظيفة مساعدة لإنشاء العناصر
             const createCard = (item, index, type) => `
                 <div class="glass-card p-4 flex justify-between items-center">
                     <span class="font-medium">${item.name}</span>
@@ -235,13 +228,8 @@
                 </div>
             `;
 
-            // رندر الكتب
             document.getElementById('books-container').innerHTML = data.books.map((b, i) => createCard(b, i, 'books')).join('');
-            
-            // رندر الملخصات
             document.getElementById('summaries-container').innerHTML = data.summaries.map((s, i) => createCard(s, i, 'summaries')).join('');
-
-            // رندر التدريبات أونلاين
             document.getElementById('quizzes-container').innerHTML = (data.quizzes || []).map((q, i) => createCard(q, i, 'quizzes')).join('');
         }
 
@@ -266,6 +254,27 @@
 
             document.getElementById('new-item-name').value = '';
             document.getElementById('new-item-url').value = '';
+            render();
+        }
+
+        function deleteItem(type, index) {
+            data[type].splice(index, 1);
+            render();
+        }
+
+        function saveChanges() {
+            data.news = document.getElementById('input-news').value;
+            data.schedule = document.getElementById('input-schedule-url').value;
+            localStorage.setItem('arabic_dept_site_v3', JSON.stringify(data));
+            render();
+            toggleAdmin();
+            alert("تم الحفظ بنجاح!");
+        }
+
+        init();
+    </script>
+</body>
+</html>'';
             render();
         }
 
