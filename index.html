@@ -23,7 +23,6 @@
             flex-direction: column;
         }
 
-        /* تأثير الوميض */
         .flicker-text {
             animation: flicker 3s infinite;
         }
@@ -90,7 +89,6 @@
 </head>
 <body>
 
-    <!-- الهيدر بدون لوجو ومع تصغير الخط -->
     <header class="w-full py-8 px-4 border-b border-white/10 text-center">
         <h1 class="text-2xl md:text-4xl font-extrabold flicker-text tracking-wide mb-2">
             طلاب آداب عربي 2027
@@ -102,7 +100,6 @@
 
     <main class="flex-grow max-w-4xl mx-auto w-full p-4 space-y-8">
 
-        <!-- آخر الأخبار -->
         <section>
             <h2 id="trigger-admin" class="text-red-600 text-xl font-black mb-3 cursor-pointer select-none">
                 اخر الاخبار
@@ -112,17 +109,13 @@
             </div>
         </section>
 
-        <!-- معرض الصور (القسم الجديد) -->
         <section id="gallery-section" class="hidden">
             <h2 class="text-white text-lg font-bold mb-4 flex items-center gap-2">
                 <span class="w-2 h-5 bg-white block"></span> معرض الصور
             </h2>
-            <div id="gallery-container" class="grid grid-cols-2 md:grid-cols-3 gap-3">
-                <!-- الصور تظهر هنا -->
-            </div>
+            <div id="gallery-container" class="grid grid-cols-2 md:grid-cols-3 gap-3"></div>
         </section>
 
-        <!-- جدول المحاضرات -->
         <section>
             <h2 class="text-white text-lg font-bold mb-4 flex items-center gap-2">
                 <span class="w-2 h-5 bg-white block"></span> جدول المحاضرات
@@ -136,9 +129,7 @@
             </div>
         </section>
 
-        <!-- الأقسام الثلاثة -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- الكتب -->
             <section>
                 <h2 class="text-white text-lg font-bold mb-3 flex items-center gap-2">
                     <span class="w-2 h-5 bg-white block"></span> الكتب الدراسية
@@ -146,7 +137,6 @@
                 <div id="books-container" class="space-y-2"></div>
             </section>
 
-            <!-- الملخصات -->
             <section>
                 <h2 class="text-white text-lg font-bold mb-3 flex items-center gap-2">
                     <span class="w-2 h-5 bg-white block"></span> ملخصات الطلاب
@@ -155,7 +145,6 @@
             </section>
         </div>
 
-        <!-- تدريبات اونلاين -->
         <section>
             <h2 class="text-white text-lg font-bold mb-3 flex items-center gap-2">
                 <span class="w-2 h-5 bg-white block"></span> تدريبات اونلاين
@@ -165,7 +154,6 @@
 
     </main>
 
-    <!-- لوحة التعديل الجانبية -->
     <div id="adminPanel" class="admin-panel">
         <div class="flex justify-between items-center mb-6">
             <h3 class="font-bold">إدارة المحتوى</h3>
@@ -181,7 +169,7 @@
         <div class="border-t border-white/10 my-4 pt-4">
             <h4 class="font-bold mb-2">إضافة عنصر جديد:</h4>
             <input type="text" id="new-item-name" placeholder="الاسم / وصف الصورة">
-            <input type="text" id="new-item-url" placeholder="الرابط (رابط الملف أو الصورة)">
+            <input type="text" id="new-item-url" placeholder="الرابط">
             <select id="new-item-type">
                 <option value="book">كتاب دراسي</option>
                 <option value="summary">ملخص طالب</option>
@@ -205,7 +193,7 @@
         };
 
         function init() {
-            const savedData = localStorage.getItem('arabic_dept_site_v4');
+            const savedData = localStorage.getItem('arabic_dept_site_v5');
             if(savedData) data = JSON.parse(savedData);
             render();
         }
@@ -214,7 +202,6 @@
             document.getElementById('display-news').innerText = data.news;
             document.getElementById('input-news').value = data.news;
 
-            // الجدول
             const imgS = document.getElementById('schedule-img');
             const noImg = document.getElementById('no-img');
             if(data.schedule) {
@@ -225,7 +212,6 @@
                 document.getElementById('input-schedule-url').value = data.schedule;
             }
 
-            // المعرض
             const gc = document.getElementById('gallery-container');
             const gs = document.getElementById('gallery-section');
             if(data.images && data.images.length > 0) {
@@ -236,11 +222,8 @@
                         <button onclick="deleteItem('images', ${i})" class="absolute top-1 right-1 bg-red-600 text-white text-[10px] p-1 rounded opacity-0 group-hover:opacity-100 transition">حذف</button>
                     </div>
                 `).join('');
-            } else {
-                gs.classList.add('hidden');
-            }
+            } else { gs.classList.add('hidden'); }
 
-            // العناصر الأخرى
             const createCard = (item, index, type) => `
                 <div class="glass-card p-3 flex justify-between items-center text-sm">
                     <span>${item.name}</span>
@@ -256,8 +239,38 @@
             document.getElementById('quizzes-container').innerHTML = (data.quizzes || []).map((q, i) => createCard(q, i, 'quizzes')).join('');
         }
 
-        function toggleAdmin() {
-            document.getElementById('adminPanel').classList.toggle('active');
+        function toggleAdmin() { document.getElementById('adminPanel').classList.toggle('active'); }
+        document.getElementById('trigger-admin').ondblclick = toggleAdmin;
+
+        function addItem() {
+            const name = document.getElementById('new-item-name').value;
+            const url = document.getElementById('new-item-url').value;
+            const type = document.getElementById('new-item-type').value;
+            if(!url) return;
+            if(type === 'image') {
+                if(!data.images) data.images = [];
+                data.images.push({name: name || 'صورة', url});
+            } else { data[type + 's'].push({name, url}); }
+            document.getElementById('new-item-name').value = '';
+            document.getElementById('new-item-url').value = '';
+            render();
+        }
+
+        function deleteItem(type, index) { data[type].splice(index, 1); render(); }
+
+        function saveChanges() {
+            data.news = document.getElementById('input-news').value;
+            data.schedule = document.getElementById('input-schedule-url').value;
+            localStorage.setItem('arabic_dept_site_v5', JSON.stringify(data));
+            render();
+            toggleAdmin();
+            alert("تم الحفظ!");
+        }
+
+        init();
+    </script>
+</body>
+</html>'adminPanel').classList.toggle('active');
         }
 
         document.getElementById('trigger-admin').ondblclick = toggleAdmin;
