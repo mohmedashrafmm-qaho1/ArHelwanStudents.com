@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>طلاب آداب عربي 2027</title>
+    <title>طُلَّاب آدَاب عَرَبِي 2027</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;700&display=swap');
@@ -21,7 +21,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            font-size: 14px; /* تصغير الخط العام */
+            font-size: 14px;
         }
 
         .flicker-text {
@@ -88,6 +88,7 @@
             font-weight: bold;
             font-size: 13px;
             transition: 0.3s;
+            display: inline-block;
         }
     </style>
 </head>
@@ -95,10 +96,10 @@
 
     <header class="w-full py-8 px-4 border-b border-white/5 text-center">
         <h1 class="text-2xl md:text-3xl font-bold flicker-text tracking-tight mb-2">
-            طلاب آداب عربي 2027
+            طُلَّاب آدَاب عَرَبِي 2027
         </h1>
         <p class="text-sm md:text-base text-gray-500">
-            جامعة العاصمة - كلية الآداب
+            جَامِعَةُ العَاصِمَةِ - كُلِّيَّةُ الآدَابِ
         </p>
     </header>
 
@@ -111,34 +112,34 @@
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
                 </span>
-                آخر الأخبار التنبيهية
+                آخِرُ الأَخْبَارِ التَّنْبِيهِيَّةِ
             </h2>
             <div id="display-news" class="glass-card p-4 border-r-2 border-red-500 text-sm leading-relaxed text-gray-300">
-                جاري تحميل الأخبار...
+                جَارِي تَحْمِيلُ الأَخْبَارِ...
             </div>
         </section>
 
-        <!-- قسم الجدول والكتب والملخصات (شبكة منظمة) -->
+        <!-- الشبكة المنظمة -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             
             <!-- الجدول -->
             <section class="md:col-span-2">
                 <h2 class="text-white text-md font-bold mb-3 flex items-center gap-2">
-                    <span class="w-1 h-4 bg-white block"></span> جدول المحاضرات
+                    <span class="w-1 h-4 bg-white block"></span> جَدْوَلُ المُحَاضَرَاتِ
                 </h2>
                 <div class="glass-card p-4 text-center">
                     <div id="schedule-placeholder" class="mb-3 bg-white/5 rounded overflow-hidden min-h-[100px] flex items-center justify-center">
                         <img id="schedule-img" src="" class="max-w-full hidden">
-                        <span id="no-img" class="text-gray-600 text-xs">لا يوجد صورة للجدول حالياً</span>
+                        <span id="no-img" class="text-gray-600 text-xs">لَا يُوجَدُ صُورَةٌ لِلْجَدْوَلِ حَالِيّاً</span>
                     </div>
-                    <a id="download-link" href="#" download class="btn-download">تحميل الجدول</a>
+                    <a id="download-link" href="#" download class="btn-download">تَحْمِيلُ الجَدْوَلِ</a>
                 </div>
             </section>
 
             <!-- الكتب -->
             <section>
                 <h2 class="text-white text-md font-bold mb-3 flex items-center gap-2">
-                    <span class="w-1 h-4 bg-blue-500 block"></span> الكتب الدراسية
+                    <span class="w-1 h-4 bg-blue-500 block"></span> الكُتُبُ الدِّرَاسِيَّةُ
                 </h2>
                 <div id="books-container" class="space-y-2"></div>
             </section>
@@ -146,7 +147,7 @@
             <!-- الملخصات -->
             <section>
                 <h2 class="text-white text-md font-bold mb-3 flex items-center gap-2">
-                    <span class="w-1 h-4 bg-green-500 block"></span> ملخصات الطلاب
+                    <span class="w-1 h-4 bg-green-500 block"></span> مُلَخَّصَاتُ الطُّلَّابِ
                 </h2>
                 <div id="summaries-container" class="space-y-2"></div>
             </section>
@@ -154,7 +155,7 @@
             <!-- تدريبات أونلاين -->
             <section class="md:col-span-2">
                 <h2 class="text-white text-md font-bold mb-3 flex items-center gap-2">
-                    <span class="w-1 h-4 bg-yellow-500 block"></span> تدريبات أونلاين
+                    <span class="w-1 h-4 bg-yellow-500 block"></span> تَدْرِيبَاتٌ أُونْلَايْن
                 </h2>
                 <div id="quizzes-container" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
             </section>
@@ -162,40 +163,40 @@
     </main>
 
     <footer class="py-6 text-center text-gray-600 text-xs border-t border-white/5">
-        &copy; 2026 جميع الحقوق محفوظة لطلاب الدفعة
+        &copy; 2026 جَمِيعُ الحُقُوقِ مَحْفُوظَةٌ لِطُلَّابِ الدُّفْعَةِ
     </footer>
 
     <!-- لوحة التحكم -->
     <div id="adminPanel" class="admin-panel">
         <div class="flex justify-between items-center mb-6">
-            <h3 class="text-md font-bold text-white">إدارة المحتوى</h3>
+            <h3 class="text-md font-bold text-white">إِدَارَةُ المُحْتَوَى</h3>
             <button onclick="toggleAdmin()" class="text-gray-500 hover:text-white text-xl">×</button>
         </div>
 
-        <label class="text-xs text-gray-500">تعديل شريط الأخبار:</label>
+        <label class="text-xs text-gray-500">تَعْدِيلُ شَرِيطِ الأَخْبَارِ:</label>
         <textarea id="input-news" rows="3"></textarea>
 
-        <label class="text-xs text-gray-500">رابط صورة الجدول:</label>
+        <label class="text-xs text-gray-500">رَابِطُ صُورَةِ الجَدْوَلِ:</label>
         <input type="text" id="input-schedule-url">
 
         <div class="border-t border-white/5 my-4 pt-4">
-            <h4 class="text-xs font-bold text-gray-300 mb-2">إضافة عنصر جديد:</h4>
+            <h4 class="text-xs font-bold text-gray-300 mb-2">إِضَافَةُ عُنْصُرٍ جَدِيدٍ:</h4>
             <input type="text" id="new-item-name" placeholder="اسم المادة">
             <input type="text" id="new-item-url" placeholder="رابط الملف">
             <select id="new-item-type">
-                <option value="book">كتاب دراسي</option>
-                <option value="summary">ملخص طالب</option>
-                <option value="quiz">تدريبات اونلاين</option>
+                <option value="book">كِتَابٌ دِرَاسِيٌّ</option>
+                <option value="summary">مُلَخَّصُ طَالِبٍ</option>
+                <option value="quiz">تَدْرِيبَاتٌ أُونْلَايْن</option>
             </select>
-            <button onclick="addItem()" class="w-full bg-blue-600 hover:bg-blue-500 py-2 rounded text-xs font-bold transition">إضافة سريع</button>
+            <button onclick="addItem()" class="w-full bg-blue-600 hover:bg-blue-500 py-2 rounded text-xs font-bold transition">إِضَافَةٌ سَرِيعَةٌ</button>
         </div>
 
-        <button onclick="saveChanges()" class="w-full bg-green-700 hover:bg-green-600 py-2 rounded text-xs font-bold mt-4 transition">حفظ التعديلات النهائية</button>
+        <button onclick="saveChanges()" class="w-full bg-green-700 hover:bg-green-600 py-2 rounded text-xs font-bold mt-4 transition">حَفْظُ التَّعْدِيلَاتِ</button>
     </div>
 
     <script>
         let data = {
-            news: "أهلاً بكم في الموقع الرسمي لطلاب آداب عربي 2027.",
+            news: "أَهْلاً بِكُمْ فِي المَوْقِعِ الرَّسْمِيِّ لِطُلَّابِ آدَابِ عَرَبِي 2027.",
             schedule: "",
             books: [],
             summaries: [],
@@ -204,7 +205,13 @@
 
         function init() {
             const savedData = localStorage.getItem('arabic_dept_v3');
-            if(savedData) data = JSON.parse(savedData);
+            if(savedData) {
+                try {
+                    data = JSON.parse(savedData);
+                } catch(e) {
+                    console.error("Error parsing data", e);
+                }
+            }
             render();
         }
 
@@ -214,26 +221,31 @@
 
             const img = document.getElementById('schedule-img');
             const noImg = document.getElementById('no-img');
+            const downloadBtn = document.getElementById('download-link');
+
             if(data.schedule) {
                 img.src = data.schedule;
                 img.classList.remove('hidden');
                 noImg.classList.add('hidden');
-                document.getElementById('download-link').href = data.schedule;
+                downloadBtn.href = data.schedule;
                 document.getElementById('input-schedule-url').value = data.schedule;
+            } else {
+                img.classList.add('hidden');
+                noImg.classList.remove('hidden');
             }
 
             const createCard = (item, index, type) => `
                 <div class="glass-card p-3 flex justify-between items-center">
                     <span class="text-xs font-medium">${item.name}</span>
                     <div class="flex gap-2">
-                        <a href="${item.url}" target="_blank" class="text-blue-400 text-xs hover:underline">فتح</a>
-                        <button onclick="deleteItem('${type}', ${index})" class="text-red-900 hover:text-red-500 text-[10px]">حذف</button>
+                        <a href="${item.url}" target="_blank" class="text-blue-400 text-xs hover:underline">فَتْح</a>
+                        <button onclick="deleteItem('${type}', ${index})" class="text-red-900 hover:text-red-500 text-[10px]">حَذْف</button>
                     </div>
                 </div>
             `;
 
-            document.getElementById('books-container').innerHTML = data.books.map((b, i) => createCard(b, i, 'books')).join('');
-            document.getElementById('summaries-container').innerHTML = data.summaries.map((s, i) => createCard(s, i, 'summaries')).join('');
+            document.getElementById('books-container').innerHTML = (data.books || []).map((b, i) => createCard(b, i, 'books')).join('');
+            document.getElementById('summaries-container').innerHTML = (data.summaries || []).map((s, i) => createCard(s, i, 'summaries')).join('');
             document.getElementById('quizzes-container').innerHTML = (data.quizzes || []).map((q, i) => createCard(q, i, 'quizzes')).join('');
         }
 
@@ -249,9 +261,36 @@
             const type = document.getElementById('new-item-type').value;
             if(!name || !url) return;
 
-            if(!data[type + 's'] && type === 'quiz') data.quizzes = data.quizzes || [];
+            const targetKey = type + 's';
+            if(!data[targetKey]) data[targetKey] = [];
             
-            if(type === 'book') data.books.push({name, url});
+            data[targetKey].push({name, url});
+
+            document.getElementById('new-item-name').value = '';
+            document.getElementById('new-item-url').value = '';
+            render();
+        }
+
+        function deleteItem(type, index) {
+            if(confirm('هَلْ أَنْتَ مُتَأَكِّدٌ مِنَ الحَذْفِ؟')) {
+                data[type].splice(index, 1);
+                render();
+            }
+        }
+
+        function saveChanges() {
+            data.news = document.getElementById('input-news').value;
+            data.schedule = document.getElementById('input-schedule-url').value;
+            localStorage.setItem('arabic_dept_v3', JSON.stringify(data));
+            render();
+            toggleAdmin();
+            alert("تَمَّ التَّحْدِيثُ بِنَجَاح");
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>oks.push({name, url});
             else if(type === 'summary') data.summaries.push({name, url});
             else if(type === 'quiz') data.quizzes.push({name, url});
 
