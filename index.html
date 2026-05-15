@@ -369,39 +369,4 @@
         window.onload = init;
     </script>
 </body>
-</html>) {
-            const name = document.getElementById('new-item-name').value;
-            const url = document.getElementById('new-item-url').value;
-            const type = document.getElementById('new-item-type').value;
-            if(!name || !url) return;
-
-            const targetKey = type + 's';
-            if(!data[targetKey]) data[targetKey] = [];
-            
-            data[targetKey].push({name, url});
-
-            document.getElementById('new-item-name').value = '';
-            document.getElementById('new-item-url').value = '';
-            render();
-        }
-
-        function deleteItem(type, index) {
-            if(confirm('هَلْ أَنْتَ مُتَأَكِّدٌ مِنَ الحَذْفِ؟')) {
-                data[type].splice(index, 1);
-                render();
-            }
-        }
-
-        function saveChanges() {
-            data.news = document.getElementById('input-news').value;
-            data.schedule = document.getElementById('input-schedule-url').value;
-            localStorage.setItem('arabic_dept_v3', JSON.stringify(data));
-            render();
-            toggleAdmin();
-            alert("تَمَّ التَّحْدِيثُ بِنَجَاح");
-        }
-
-        window.onload = init;
-    </script>
-</body>
-</html>
+</html>)
