@@ -80,6 +80,12 @@
             font-size: 13px;
         }
 
+        input[type="file"] {
+            background: #1a1a1a;
+            border: 1px dashed #555;
+            cursor: pointer;
+        }
+
         .btn-download {
             background: #fff;
             color: #000;
@@ -128,11 +134,11 @@
                     <span class="w-1 h-4 bg-white block"></span> جدول المحاضرات 
                 </h2>
                 <div class="glass-card p-4 text-center">
-                    <div id="schedule-placeholder" class="mb-3 bg-white/5 rounded overflow-hidden min-h-[100px] flex items-center justify-center">
-                        <img id="schedule-img" src="" class="max-w-full hidden">
+                    <div id="schedule-placeholder" class="mb-3 bg-white/5 rounded overflow-hidden min-h-[100px] flex items-center justify-center p-2">
+                        <img id="schedule-img" src="" class="max-w-full hidden rounded border border-white/10">
                         <span id="no-img" class="text-gray-600 text-xs"> لا يوجد صورة للجدول حاليا </span>
                     </div>
-                    <a id="download-link" href="#" download class="btn-download">تحميل الجدول</a>
+                    <a id="download-link" href="#" download="جدول_المحاضرات" class="btn-download hidden">تحميل الجدول</a>
                 </div>
             </section>
 
@@ -163,7 +169,7 @@
     </main>
 
     <footer class="py-6 text-center text-gray-600 text-xs border-t border-white/5">
-        &copy; 2026 جَمِيعُ الحُقُوقِ مَحْفُوظَةٌ لِطُلَّابِ الدُّفْعَةِ
+        &copy; 2026 جَمِيعُ الحُقُوقِ مَحْفُوظَةٌ لِطُلَّابِ الدُّفْعَةِ
     </footer>
 
     <!-- لوحة التحكم -->
@@ -176,22 +182,27 @@
         <label class="text-xs text-gray-500">تَعْدِيلُ شَرِيطِ الأَخْبَارِ:</label>
         <textarea id="input-news" rows="3"></textarea>
 
-        <label class="text-xs text-gray-500">رَابِطُ صُورَةِ الجَدْوَلِ:</label>
-        <input type="text" id="input-schedule-url">
+        <label class="text-xs text-gray-500">رفع صورة الجدول الجديدة:</label>
+        <input type="file" id="input-schedule-file" accept="image/*">
+        <div id="schedule-status" class="text-[11px] text-gray-400 mb-2"></div>
 
         <div class="border-t border-white/5 my-4 pt-4">
             <h4 class="text-xs font-bold text-gray-300 mb-2">إِضَافَةُ عُنْصُرٍ جَدِيدٍ:</h4>
-            <input type="text" id="new-item-name" placeholder="اسم المادة">
-            <input type="text" id="new-item-url" placeholder="رابط الملف">
+            <input type="text" id="new-item-name" placeholder="اسم المادة أو التدريب">
+            
+            <label class="text-xs text-gray-500 block mb-1">ارفَق الملف (PDF، صورة، إلخ):</label>
+            <input type="file" id="new-item-file">
+            <div id="file-status" class="text-[11px] text-gray-400 mb-2"></div>
+
             <select id="new-item-type">
-                <option value="book">كِتَابٌ دِرَاسِيٌّ</option>
-                <option value="summary">مُلَخَّصُ طَالِبٍ</option>
+                <option value="book">كِتَابٌ دِرَاسِيٌّ</option>
+                <option value="summary">مُلَخَّصُ طَالِبٍ</option>
                 <option value="quiz">تَدْرِيبَاتٌ أُونْلَايْن</option>
             </select>
             <button onclick="addItem()" class="w-full bg-blue-600 hover:bg-blue-500 py-2 rounded text-xs font-bold transition">إِضَافَةٌ سَرِيعَةٌ</button>
         </div>
 
-        <button onclick="saveChanges()" class="w-full bg-green-700 hover:bg-green-600 py-2 rounded text-xs font-bold mt-4 transition">حَفْظُ التَّعْدِيلَاتِ</button>
+        <button onclick="saveChanges()" class="w-full bg-green-700 hover:bg-green-600 py-2 rounded text-xs font-bold mt-4 transition">حَفْظُ التَّعْدِيلَاتِ</button>
     </div>
 
     <script>
@@ -203,6 +214,10 @@
             quizzes: []
         };
 
+        // متغيرات مؤقتة لتخزين الملفات المرفوعة أثناء فتح لوحة التحكم
+        let uploadedScheduleBase64 = "";
+        let uploadedItemBase64 = "";
+
         function init() {
             const savedData = localStorage.getItem('arabic_dept_v3');
             if(savedData) {
@@ -213,6 +228,37 @@
                 }
             }
             render();
+            setupFileListeners();
+        }
+
+        function setupFileListeners() {
+            // الاستماع لرفع صورة الجدول
+            document.getElementById('input-schedule-file').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                document.getElementById('schedule-status').innerText = "جاري معالجة الصورة...";
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    uploadedScheduleBase64 = event.target.result;
+                    document.getElementById('schedule-status').innerText = "✓ تم تجهيز الصورة للحفظ";
+                };
+                reader.readAsDataURL(file);
+            });
+
+            // الاستماع لرفع ملف المواد الجديد
+            document.getElementById('new-item-file').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                document.getElementById('file-status').innerText = "جاري معالجة الملف...";
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    uploadedItemBase64 = event.target.result;
+                    document.getElementById('file-status').innerText = "✓ تم تجهيز الملف المرفق";
+                };
+                reader.readAsDataURL(file);
+            });
         }
 
         function render() {
@@ -228,17 +274,18 @@
                 img.classList.remove('hidden');
                 noImg.classList.add('hidden');
                 downloadBtn.href = data.schedule;
-                document.getElementById('input-schedule-url').value = data.schedule;
+                downloadBtn.classList.remove('hidden');
             } else {
                 img.classList.add('hidden');
                 noImg.classList.remove('hidden');
+                downloadBtn.classList.add('hidden');
             }
 
             const createCard = (item, index, type) => `
                 <div class="glass-card p-3 flex justify-between items-center">
                     <span class="text-xs font-medium">${item.name}</span>
                     <div class="flex gap-2">
-                        <a href="${item.url}" target="_blank" class="text-blue-400 text-xs hover:underline">فَتْح</a>
+                        <a href="${item.url}" download="${item.name}" class="text-blue-400 text-xs hover:underline">تحميل / فتح</a>
                         <button onclick="deleteItem('${type}', ${index})" class="text-red-900 hover:text-red-500 text-[10px]">حَذْف</button>
                     </div>
                 </div>
@@ -251,11 +298,78 @@
 
         function toggleAdmin() {
             document.getElementById('adminPanel').classList.toggle('active');
+            // تفريغ قيم الرفع المؤقتة عند الإغلاق أو الفتح لإعادة التهيئة
+            uploadedScheduleBase64 = "";
+            uploadedItemBase64 = "";
+            document.getElementById('schedule-status').innerText = "";
+            document.getElementById('file-status').innerText = "";
+            document.getElementById('input-schedule-file').value = "";
+            document.getElementById('new-item-file').value = "";
         }
 
         document.getElementById('trigger-admin').ondblclick = toggleAdmin;
 
         function addItem() {
+            const name = document.getElementById('new-item-name').value;
+            const type = document.getElementById('new-item-type').value;
+            
+            if(!name) {
+                alert("برجاء كتابة اسم المادة");
+                return;
+            }
+            if(!uploadedItemBase64) {
+                alert("برجاء إرفاق ملف أولاً");
+                return;
+            }
+
+            const targetKey = type + 's';
+            if(!data[targetKey]) data[targetKey] = [];
+            
+            // دفع الملف المترجم إلى الصيغة النصية داخل المصفوفة الخاصة به
+            data[targetKey].push({name: name, url: uploadedItemBase64});
+
+            // إعادة تصفير المدخلات الخاصة بالمواد
+            document.getElementById('new-item-name').value = '';
+            document.getElementById('new-item-file').value = '';
+            document.getElementById('file-status').innerText = "";
+            uploadedItemBase64 = "";
+            
+            render();
+            alert("تم إضافة العنصر بنجاح (سيتم التثبيت نهائياً عند الضغط على حفظ التعديلات)");
+        }
+
+        function deleteItem(type, index) {
+            if(confirm('هَلْ أَنْتَ مُتَأَكِّدٌ مِنَ الحَذْفِ؟')) {
+                data[type].splice(index, 1);
+                localStorage.setItem('arabic_dept_v3', JSON.stringify(data));
+                render();
+            }
+        }
+
+        function saveChanges() {
+            data.news = document.getElementById('input-news').value;
+            
+            // إذا قام المستخدم برفع صورة جدول جديدة، نقوم بتحديثها، وإلا تظل القديمة كما هي
+            if(uploadedScheduleBase64) {
+                data.schedule = uploadedScheduleBase64;
+            }
+
+            try {
+                localStorage.setItem('arabic_dept_v3', JSON.stringify(data));
+                render();
+                toggleAdmin();
+                alert("تَمَّ التَّحْدِيثُ وَالحِفْظُ بِنَجَاح");
+            } catch (error) {
+                // تنبيه في حال تخطي الحجم المسموح به في الذاكرة المحلية للمتصفح
+                alert("تنبيه: حجم الملفات المرفوعة كبير جداً على ذاكرة المتصفح المحلية، يرجى رفع ملفات بحجم أصغر.");
+                console.error(error);
+            }
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>) {
             const name = document.getElementById('new-item-name').value;
             const url = document.getElementById('new-item-url').value;
             const type = document.getElementById('new-item-type').value;
