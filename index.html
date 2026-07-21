@@ -3,389 +3,515 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>طلاب الفرقة الثانية قسم اللغة العربية</title>
-    <!-- استدعاء خط Cairo العريض والجذاب من Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800;900&display=swap" rel="stylesheet">
-    <!-- استدعاء مكتبة Tailwind CSS للتنسيق المتجاوب -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>طلاب لغة عربية الفرقة الثانيه ٢٠٢٦</title>
+    <!-- استدعاء مكتبة الأيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* إعدادات الخط والألوان الأساسية */
+        /* الألوان المتغيرة للوضع الداكن والفاتح */
+        :root {
+            --bg-color: #0B132B; /* كحلي غامق */
+            --text-color: #FFFFFF;
+            --btn-color: #4FACFE; /* أزرق فاتح */
+            --btn-text: #000000;
+            --footer-bg: #1C2541;
+            --card-bg: #14203b;
+        }
+
+        .light-mode {
+            --bg-color: #f0f4f8; /* فاتح */
+            --text-color: #0B132B; /* كحلي غامق للنصوص */
+            --btn-color: #0B132B;
+            --btn-text: #FFFFFF;
+            --footer-bg: #e1e8f0;
+            --card-bg: #ffffff;
+        }
+
         body {
-            font-family: 'Cairo', sans-serif;
-            background-color: #000000;
-            color: #ffffff;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
+            padding-bottom: 80px; /* مساحة للفوتر */
+            transition: background-color 0.3s, color 0.3s;
         }
 
-        /* تأثير الوميض الأبيض للنصوص */
-        .glow-text {
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.5);
+        /* ---------------- الواجهة العلوية ---------------- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
-        /* تأثير الوميض الأبيض للعناصر والأزرار والمربعات */
-        .glow-box {
-            border: 2px solid #ffffff;
-            background-color: #0a0a0a;
-            box-shadow: 0 0 8px rgba(255, 255, 255, 0.6), inset 0 0 8px rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease-in-out;
-            border-radius: 12px;
-        }
-        
-        .glow-box:hover {
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.9), inset 0 0 15px rgba(255, 255, 255, 0.4);
-            transform: translateY(-2px);
+        .header-right, .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
-        /* الخط الفاصل بين الحقول */
-        hr {
+        .logo {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--btn-color);
+            cursor: pointer;
+        }
+
+        h1 {
+            font-size: 1.2rem;
+            margin: 0;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .glow-btn {
+            background-color: var(--btn-color);
+            color: var(--btn-text);
             border: none;
-            border-top: 2px solid #ffffff;
-            box-shadow: 0 0 10px #ffffff;
-            margin: 3rem 0;
-            opacity: 0.8;
-        }
-
-        /* إخفاء عناصر التحكم الخاصة بالمدير في الوضع الطبيعي */
-        body:not(.admin-mode) .admin-only {
-            display: none !important;
-        }
-
-        /* تخصيص زر رفع الملفات المخفي ليعمل كزر عادي */
-        .file-upload-label {
-            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
             cursor: pointer;
-            padding: 10px 20px;
-            text-align: center;
-            font-weight: 800;
-        }
-        .file-upload-input {
-            display: none;
+            /* الوميض الأبيض من الأطراف */
+            box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
+            transition: 0.3s;
         }
 
-        /* تخصيص المربعات الفرعية لـ Gemini */
-        .gemini-square {
-            aspect-ratio: 1 / 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            cursor: pointer;
-            font-size: 1.25rem;
-            font-weight: 800;
-            padding: 1rem;
-            word-break: break-word;
+        .glow-btn:hover {
+            box-shadow: 0 0 15px 5px rgba(255, 255, 255, 1);
         }
 
-        /* نافذة الإدخال المنبثقة (Modal) */
-        .modal-overlay {
+        /* ---------------- الخانات السفلية (الفوتر) ---------------- */
+        footer {
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.9);
+            bottom: 0;
+            width: 100%;
+            background-color: var(--footer-bg);
+            /* الخط العريض الذي يفصل الفوتر عن الموقع */
+            border-top: 6px solid var(--btn-color);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 1000;
+        }
+
+        .footer-tab {
+            text-align: center;
+            cursor: pointer;
+            color: var(--text-color);
+            flex: 1;
+            transition: 0.2s;
+        }
+
+        .footer-tab:hover {
+            color: var(--btn-color);
+        }
+
+        .footer-tab i {
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .footer-tab span {
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* ---------------- محتوى الصفحات ---------------- */
+        .section {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.5s;
+        }
+
+        .active-section {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-shadow: 1px 1px 2px #000;
+            background: var(--btn-color);
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            color: var(--bg-color)
+        }
+
+        /* الصفحة الرئيسية */
+        .schedule-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .schedule-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            border: 2px solid var(--btn-color);
+            display: none; /* مخفية حتى يتم رفع صورة */
+        }
+
+        .news-box {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid var(--btn-color);
+        }
+
+        .news-header {
             display: flex;
             align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .alert-dot {
+            width: 15px;
+            height: 15px;
+            background-color: red;
+            border-radius: 50%;
+            animation: pulse 1s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 5px red; }
+            100% { transform: scale(1.3); box-shadow: 0 0 15px red; }
+        }
+
+        /* شبكة الكروت (للكتب والملخصات والامتحانات) */
+        .grid-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
             justify-content: center;
-            z-index: 50;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
         }
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
+
+        .card {
+            background: var(--card-bg);
+            border: 2px dashed var(--btn-color);
+            border-radius: 10px;
+            width: 250px;
+            padding: 15px;
+            text-align: center;
+            position: relative;
         }
-        
-        /* حقول الإدخال */
-        input[type="text"], input[type="url"] {
-            background: transparent;
-            border: 2px solid #fff;
-            color: #fff;
-            padding: 10px;
-            border-radius: 8px;
-            width: 100%;
+
+        .card input[type="file"], .card input[type="text"] {
+            margin-top: 10px;
+            width: 90%;
+            padding: 5px;
+        }
+
+        /* الاستفسارات */
+        .form-group {
             margin-bottom: 15px;
-            font-family: inherit;
-            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-            outline: none;
         }
-        input[type="text"]:focus, input[type="url"]:focus {
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid var(--btn-color);
+            background: var(--card-bg);
+            color: var(--text-color);
+            box-sizing: border-box;
+        }
+
+        .whatsapp-btn {
+            display: block;
+            background-color: #25D366;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        /* لوحة التحكم المخفية */
+        #admin-panel {
+            background: #ffeb3b;
+            color: #000;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: none;
+            border: 3px solid red;
         }
     </style>
 </head>
-<body class="px-4 md:px-10 lg:px-20 pb-10">
+<body>
 
-    <!-- العنوان والشعارات -->
-    <header class="flex flex-col md:flex-row justify-between items-center py-8 gap-6 text-center md:text-right">
-        <!-- شعار كلية الآداب (يمين) -->
-        <div class="flex-shrink-0">
-            <img src="شعار كلية الاداب.png" alt="شعار كلية الآداب" class="w-24 md:w-32 glow-box p-1" onerror="this.style.display='none'">
-        </div>
-        
-        <!-- العنوان (في المنتصف) - الضغط المزدوج هنا يفعّل وضع المدير -->
-        <div class="flex-grow flex flex-col items-center justify-center">
-            <h1 id="main-title" class="text-3xl md:text-5xl font-black glow-text cursor-pointer select-none mb-4" ondblclick="toggleAdminMode()" title="اضغط مرتين لتفعيل/إلغاء التعديل">
-                طلاب الفرقة الثانية قسم اللغة العربية
-            </h1>
-            <p class="text-lg md:text-xl font-semibold glow-text">
-                "اللهم علمنا ما ينفعنا وانفعنا بما علمتنا وزدنا علمًا"
-            </p>
-            <div id="admin-indicator" class="admin-only mt-4 text-green-400 font-bold glow-text">
-                (وضع التعديل مفعل)
-            </div>
+    <!-- الواجهة العلوية -->
+    <header>
+        <div class="header-right">
+            <!-- شعار الجامعة (الزر المخفي) -->
+            <img src="https://via.placeholder.com/100?text=جامعة" alt="شعار الجامعة" class="logo" id="uni-logo" title="اضغط 3 مرات للتحكم">
         </div>
 
-        <!-- شعار جامعة العاصمة (يسار) -->
-        <div class="flex-shrink-0">
-            <img src="شعار جامعه العاصمة.png" alt="شعار جامعة العاصمة" class="w-24 md:w-32 glow-box p-1" onerror="this.style.display='none'">
+        <h1 id="site-title" data-en="Arabic Students 2nd Year 2026">طلاب لغة عربية الفرقة الثانيه ٢٠٢٦</h1>
+
+        <div class="header-left">
+            <!-- شعار الكلية -->
+            <img src="https://via.placeholder.com/100?text=كلية" alt="شعار الكلية" class="logo" id="fac-logo">
+            <button class="glow-btn" onclick="toggleTheme()" id="theme-btn">الوضع الفاتح</button>
+            <button class="glow-btn" onclick="toggleLang()" id="lang-btn">English</button>
         </div>
     </header>
 
-    <hr>
-
-    <!-- الحقل الأول: جدول المحاضرات الدراسي -->
-    <section class="mb-10">
-        <h2 class="text-2xl md:text-3xl font-bold glow-text mb-6">جدول المحاضرات الدراسي</h2>
-        
-        <div class="admin-only mb-6">
-            <label class="glow-box file-upload-label">
-                إضافة / تغيير صورة الجدول
-                <input type="file" accept="image/*" class="file-upload-input" onchange="handleImageUpload(event, 'schedule-img')">
-            </label>
+    <!-- لوحة التحكم الإدارية (تظهر فقط بعد 3 ضغطات) -->
+    <div id="admin-panel" class="section">
+        <h2>🛠️ لوحة التحكم الإدارية (خاصة بك)</h2>
+        <div class="form-group">
+            <label>تعديل اسم الموقع:</label>
+            <input type="text" id="edit-title" onkeyup="updateTitle(this.value)" placeholder="اكتب الاسم الجديد هنا...">
         </div>
-        
-        <div class="flex justify-center">
-            <img id="schedule-img" class="max-w-full rounded-lg glow-box hidden" alt="جدول المحاضرات" style="max-height: 600px;">
-            <p id="schedule-placeholder" class="text-gray-400 font-semibold text-lg py-10">لم يتم إضافة جدول بعد.</p>
+        <div class="form-group">
+            <label>رفع صورة الجدول الدراسي:</label>
+            <input type="file" id="schedule-upload" accept="image/*" onchange="uploadSchedule(event)">
         </div>
-    </section>
+        <div class="form-group">
+            <label>تحديث أهم أخبار الجامعة:</label>
+            <textarea id="edit-news" rows="3" onkeyup="updateNews(this.value)" placeholder="اكتب الأخبار هنا..."></textarea>
+        </div>
+        <h3>رسائل الطلاب (الاستفسارات):</h3>
+        <div id="admin-messages" style="background:#fff; padding:10px; border:1px solid #000; height:150px; overflow-y:auto; color: #000;">
+            لا توجد رسائل بعد.
+        </div>
+        <button class="glow-btn" onclick="document.getElementById('admin-panel').style.display='none'" style="margin-top:10px; background: red; color:white;">إغلاق لوحة التحكم</button>
+    </div>
 
-    <hr>
-
-    <!-- الحقل الثاني: الكتب الدراسية -->
-    <section class="mb-10">
-        <h2 class="text-2xl md:text-3xl font-bold glow-text mb-6">الكتب الدراسية</h2>
-        
-        <div class="admin-only mb-6">
-            <label class="glow-box file-upload-label">
-                إضافة كتاب من الهاتف
-                <input type="file" class="file-upload-input" onchange="handleFileUpload(event, 'books-list')">
-            </label>
+    <!-- 1. الصفحة الرئيسية -->
+    <div id="home" class="section active-section">
+        <div class="schedule-container">
+            <div class="section-title" data-en="Study Schedule">الجدول الدراسي</div><br>
+            <img id="schedule-display" class="schedule-img" src="" alt="صورة الجدول الدراسي">
+            <p id="no-schedule-msg">لم يتم رفع الجدول الدراسي بعد.</p>
         </div>
 
-        <ul id="books-list" class="space-y-4">
-            <!-- سيتم إضافة الملفات هنا -->
-        </ul>
-        <p id="books-placeholder" class="text-gray-400 font-semibold text-lg">لم يتم إضافة كتب بعد.</p>
-    </section>
-
-    <hr>
-
-    <!-- الحقل الثالث: ملخصات الطلاب -->
-    <section class="mb-10">
-        <h2 class="text-2xl md:text-3xl font-bold glow-text mb-6">ملخصات الطلاب</h2>
-        
-        <div class="admin-only mb-6">
-            <label class="glow-box file-upload-label">
-                إضافة ملخص من الهاتف
-                <input type="file" class="file-upload-input" onchange="handleFileUpload(event, 'summaries-list')">
-            </label>
-        </div>
-
-        <ul id="summaries-list" class="space-y-4">
-            <!-- سيتم إضافة الملفات هنا -->
-        </ul>
-        <p id="summaries-placeholder" class="text-gray-400 font-semibold text-lg">لم يتم إضافة ملخصات بعد.</p>
-    </section>
-
-    <hr>
-
-    <!-- الحقل الرابع: تدريبات Gemini -->
-    <section class="mb-10">
-        <h2 class="text-2xl md:text-3xl font-bold glow-text mb-6">تدريبات Gemini</h2>
-        
-        <div class="admin-only mb-6">
-            <button class="glow-box file-upload-label" onclick="openGeminiModal()">
-                إضافة مادة تدريب جديدة
-            </button>
-        </div>
-
-        <!-- شبكة المربعات -->
-        <div id="gemini-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-            <!-- سيتم إضافة مربعات التدريب هنا -->
-        </div>
-        <p id="gemini-placeholder" class="text-gray-400 font-semibold text-lg mt-4">لم يتم إضافة تدريبات بعد.</p>
-    </section>
-
-    <!-- نافذة إضافة/تعديل تدريب (Modal) -->
-    <div id="gemini-modal" class="modal-overlay">
-        <div class="glow-box p-8 w-11/12 max-w-md bg-black relative">
-            <h3 class="text-2xl font-bold glow-text mb-6 text-center">بيانات التدريب</h3>
-            
-            <input type="hidden" id="edit-index" value="-1">
-            
-            <label class="block mb-2 font-bold">اسم المادة:</label>
-            <input type="text" id="subject-name" placeholder="مثال: النحو والصرف" required>
-            
-            <label class="block mb-2 font-bold mt-4">رابط الامتحان الخارجي:</label>
-            <input type="url" id="subject-link" placeholder="https://..." required>
-            
-            <div class="flex gap-4 mt-8">
-                <button class="glow-box flex-1 py-2 font-bold text-center" onclick="saveGeminiSubject()">حفظ</button>
-                <button class="glow-box flex-1 py-2 font-bold text-center border-red-500 hover:border-red-500" onclick="closeGeminiModal()">إلغاء</button>
+        <div class="news-box">
+            <div class="news-header">
+                <div class="alert-dot"></div>
+                <span data-en="Important University News">اهم اخبار الجامعه</span>
             </div>
-            <div class="mt-4">
-                <button id="delete-btn" class="glow-box w-full py-2 font-bold text-center text-red-500 border-red-500 hidden" onclick="deleteGeminiSubject()">حذف المربع</button>
+            <p id="news-display">مرحباً بكم في الموقع الرسمي لطلاب الفرقة الثانية.</p>
+        </div>
+    </div>
+
+    <!-- 2. الكتب -->
+    <div id="books" class="section">
+        <div class="section-title" data-en="Study Books">الكتب الدراسية</div>
+        <div class="grid-container" id="books-grid">
+            <!-- كارت لرفع كتاب -->
+            <div class="card">
+                <input type="text" placeholder="اكتب اسم الكتاب هنا..." data-en="Book Name...">
+                <input type="file" accept=".pdf,.doc,.docx,.xls,.xlsx">
+                <button class="glow-btn" style="margin-top:10px; width:100%;">حفظ</button>
+            </div>
+            <div class="card">
+                <input type="text" placeholder="اكتب اسم الكتاب هنا...">
+                <input type="file">
+                <button class="glow-btn" style="margin-top:10px; width:100%;">حفظ</button>
             </div>
         </div>
     </div>
 
-    <hr>
+    <!-- 3. الملخصات -->
+    <div id="summaries" class="section">
+        <div class="section-title" data-en="Student Summaries">ملخصات الطلاب</div>
+        <div class="grid-container" id="summaries-grid">
+            <div class="card">
+                <input type="text" placeholder="اكتب اسم الملخص هنا..." data-en="Summary Name...">
+                <input type="file">
+                <button class="glow-btn" style="margin-top:10px; width:100%;">حفظ</button>
+            </div>
+        </div>
+    </div>
 
-    <!-- تذييل الموقع -->
-    <footer class="text-center py-6">
-        <p class="text-xs md:text-sm glow-text opacity-80">
-            تم تصميم هذا الموقع بإدارة طلاب الفرقة الثانية كلية الآداب قسم اللغة العربية
-        </p>
+    <!-- 4. التدريبات والامتحانات -->
+    <div id="exams" class="section">
+        <div class="section-title" data-en="GEMINI Exams">امتحانات GEMINI</div>
+        <div class="grid-container" id="exams-grid">
+            <div class="card">
+                <input type="text" placeholder="اسم الامتحان..." data-en="Exam Name...">
+                <input type="text" placeholder="ضع رابط الامتحان هنا (مثال: Google Forms)">
+                <button class="glow-btn" style="margin-top:10px; width:100%;">حفظ الرابط</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. الاقتراحات والاستفسارات -->
+    <div id="contact" class="section">
+        <div class="section-title" data-en="Suggestions & Inquiries">الاقتراحات والاستفسارات</div>
+        <div class="form-group">
+            <input type="text" id="student-name" placeholder="الاسم (اختياري)" data-en="Name (Optional)">
+        </div>
+        <div class="form-group">
+            <textarea id="student-msg" rows="5" placeholder="اكتب اقتراحك، استفسارك، أو شكواك هنا..." data-en="Write your suggestion or inquiry here..."></textarea>
+        </div>
+        <button class="glow-btn" style="width: 100%; padding: 15px; font-size: 1.1rem;" onclick="sendToAdmin()">إرسال إلى الإدارة</button>
+        
+        <div style="text-align: center; margin-top: 30px;">
+            <p data-en="For inquiries also via WhatsApp:">للاستفسار أيضا عن طريق واتساب</p>
+            <a href="https://wa.me/201152206083" target="_blank" class="whatsapp-btn">
+                <i class="fab fa-whatsapp"></i> تواصل عبر واتساب (+٢٠١١٥٢٢٠٦٠٨٣)
+            </a>
+        </div>
+    </div>
+
+    <!-- الفوتر (الخانات السفلية) -->
+    <footer>
+        <div class="footer-tab" onclick="showSection('home')">
+            <i class="fas fa-home"></i>
+            <span data-en="Home">الصفحة الرئيسية</span>
+        </div>
+        <div class="footer-tab" onclick="showSection('books')">
+            <i class="fas fa-book"></i>
+            <span data-en="Books">الكتب</span>
+        </div>
+        <div class="footer-tab" onclick="showSection('summaries')">
+            <i class="fas fa-file-alt"></i>
+            <span data-en="Summaries">الملخصات</span>
+        </div>
+        <div class="footer-tab" onclick="showSection('exams')">
+            <i class="fas fa-edit"></i>
+            <span data-en="Practices">التدريبات</span>
+        </div>
+        <div class="footer-tab" onclick="showSection('contact')">
+            <i class="fas fa-comments"></i>
+            <span data-en="Inquiries">الاستفسارات</span>
+        </div>
     </footer>
 
-    <!-- الأكواد البرمجية للوظائف والتفاعلات -->
+    <!-- سكربت الجافاسكربت للوظائف -->
     <script>
-        // قواعد البيانات المؤقتة (في الجلسة)
-        let geminiData = [];
+        // 1. التنقل بين الخانات
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active-section'));
+            document.getElementById(sectionId).classList.add('active-section');
+        }
 
-        // 1. وظيفة وضع المدير (مخفية بالضغط المزدوج على العنوان)
-        function toggleAdminMode() {
-            document.body.classList.toggle('admin-mode');
-            const isActive = document.body.classList.contains('admin-mode');
-            if(isActive) {
-                // تأثير بصري بسيط عند التفعيل
-                document.getElementById('main-title').style.textShadow = "0 0 20px #00ff00";
-                setTimeout(() => { document.getElementById('main-title').style.textShadow = ""; }, 1000);
+        // 2. تغيير الوضع (داكن / فاتح)
+        let isDarkMode = true;
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            isDarkMode = !isDarkMode;
+            const btn = document.getElementById('theme-btn');
+            btn.innerText = isDarkMode ? (currentLang === 'ar' ? 'الوضع الفاتح' : 'Light Mode') 
+                                       : (currentLang === 'ar' ? 'الوضع الداكن' : 'Dark Mode');
+        }
+
+        // 3. تغيير اللغة (عربي / إنجليزي)
+        let currentLang = 'ar';
+        function toggleLang() {
+            const elements = document.querySelectorAll('[data-en]');
+            
+            if (currentLang === 'ar') {
+                currentLang = 'en';
+                document.documentElement.dir = 'ltr';
+                document.getElementById('lang-btn').innerText = 'عربي';
+                document.getElementById('theme-btn').innerText = isDarkMode ? 'Light Mode' : 'Dark Mode';
+                
+                elements.forEach(el => {
+                    if(!el.dataset.ar) el.dataset.ar = el.innerText || el.placeholder;
+                    if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = el.dataset.en;
+                    else el.innerText = el.dataset.en;
+                });
+            } else {
+                currentLang = 'ar';
+                document.documentElement.dir = 'rtl';
+                document.getElementById('lang-btn').innerText = 'English';
+                document.getElementById('theme-btn').innerText = isDarkMode ? 'الوضع الفاتح' : 'الوضع الداكن';
+                
+                elements.forEach(el => {
+                    if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = el.dataset.ar;
+                    else el.innerText = el.dataset.ar;
+                });
             }
         }
 
-        // 2. وظيفة رفع وعرض صورة الجدول
-        function handleImageUpload(event, imgId) {
+        // 4. الزر المخفي (شعار الجامعة) - 3 ضغطات متتالية
+        let clickCount = 0;
+        let clickTimer;
+
+        document.getElementById('uni-logo').addEventListener('click', () => {
+            clickCount++;
+            clearTimeout(clickTimer);
+            
+            if (clickCount === 3) {
+                document.getElementById('admin-panel').style.display = 'block';
+                showSection('admin-panel'); // إظهار اللوحة
+                clickCount = 0; // إعادة التعيير
+            } else {
+                clickTimer = setTimeout(() => { clickCount = 0; }, 1500); // يجب أن تكون الـ 3 ضغطات خلال ثانية ونصف
+            }
+        });
+
+        // 5. وظائف لوحة التحكم
+        function updateTitle(newTitle) {
+            if(newTitle.trim() !== '') {
+                document.getElementById('site-title').innerText = newTitle;
+            }
+        }
+
+        function updateNews(newText) {
+            if(newText.trim() !== '') {
+                document.getElementById('news-display').innerText = newText;
+            }
+        }
+
+        // قراءة الصورة المرفوعة من الجهاز وعرضها
+        function uploadSchedule(event) {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    const imgElement = document.getElementById(imgId);
-                    imgElement.src = e.target.result;
-                    imgElement.classList.remove('hidden');
-                    document.getElementById('schedule-placeholder').classList.add('hidden');
-                };
+                    const img = document.getElementById('schedule-display');
+                    img.src = e.target.result;
+                    img.style.display = 'inline-block';
+                    document.getElementById('no-schedule-msg').style.display = 'none';
+                }
                 reader.readAsDataURL(file);
             }
         }
 
-        // 3. وظيفة رفع الملفات (للكتب والملخصات)
-        function handleFileUpload(event, listId) {
-            const file = event.target.files[0];
-            if (file) {
-                const list = document.getElementById(listId);
-                const placeholderId = listId === 'books-list' ? 'books-placeholder' : 'summaries-placeholder';
-                document.getElementById(placeholderId).classList.add('hidden');
+        // 6. استقبال الاقتراحات وإرسالها للوحة التحكم
+        function sendToAdmin() {
+            const name = document.getElementById('student-name').value || (currentLang === 'ar' ? 'مجهول' : 'Anonymous');
+            const msg = document.getElementById('student-msg').value;
 
-                const fileUrl = URL.createObjectURL(file);
-                
-                const li = document.createElement('li');
-                li.className = "glow-box p-4 flex justify-between items-center";
-                li.innerHTML = `
-                    <span class="font-bold truncate max-w-[70%]">${file.name}</span>
-                    <a href="${fileUrl}" target="_blank" class="glow-box px-4 py-1 text-sm bg-white text-black hover:bg-gray-200">فتح / تحميل</a>
-                `;
-                list.appendChild(li);
-            }
-        }
-
-        // 4. وظائف تدريبات Gemini
-        function renderGeminiGrid() {
-            const grid = document.getElementById('gemini-grid');
-            grid.innerHTML = '';
-            
-            if (geminiData.length === 0) {
-                document.getElementById('gemini-placeholder').classList.remove('hidden');
-                return;
-            } else {
-                document.getElementById('gemini-placeholder').classList.add('hidden');
-            }
-
-            geminiData.forEach((item, index) => {
-                const box = document.createElement('div');
-                box.className = "glow-box gemini-square glow-text";
-                box.innerText = item.name;
-                
-                // التحكم بالضغط بناءً على الوضع
-                box.onclick = function() {
-                    if (document.body.classList.contains('admin-mode')) {
-                        // وضع التعديل: فتح نافذة التعديل
-                        openGeminiModal(index);
-                    } else {
-                        // وضع الطالب: الانتقال للامتحان
-                        window.open(item.link, '_blank');
-                    }
-                };
-                grid.appendChild(box);
-            });
-        }
-
-        function openGeminiModal(index = -1) {
-            const modal = document.getElementById('gemini-modal');
-            const nameInput = document.getElementById('subject-name');
-            const linkInput = document.getElementById('subject-link');
-            const indexInput = document.getElementById('edit-index');
-            const deleteBtn = document.getElementById('delete-btn');
-
-            indexInput.value = index;
-
-            if (index > -1) {
-                nameInput.value = geminiData[index].name;
-                linkInput.value = geminiData[index].link;
-                deleteBtn.classList.remove('hidden');
-            } else {
-                nameInput.value = '';
-                linkInput.value = '';
-                deleteBtn.classList.add('hidden');
-            }
-            
-            modal.classList.add('active');
-        }
-
-        function closeGeminiModal() {
-            document.getElementById('gemini-modal').classList.remove('active');
-        }
-
-        function saveGeminiSubject() {
-            const name = document.getElementById('subject-name').value.trim();
-            const link = document.getElementById('subject-link').value.trim();
-            const index = parseInt(document.getElementById('edit-index').value);
-
-            if (!name || !link) {
-                alert('الرجاء إدخال اسم المادة والرابط.');
+            if (msg.trim() === '') {
+                alert(currentLang === 'ar' ? 'الرجاء كتابة رسالة أولاً' : 'Please write a message first');
                 return;
             }
 
-            if (index > -1) {
-                geminiData[index] = { name, link };
-            } else {
-                geminiData.push({ name, link });
-            }
+            const adminBox = document.getElementById('admin-messages');
+            if (adminBox.innerText.includes('لا توجد رسائل')) adminBox.innerHTML = '';
 
-            renderGeminiGrid();
-            closeGeminiModal();
-        }
-
-        function deleteGeminiSubject() {
-            const index = parseInt(document.getElementById('edit-index').value);
-            if (index > -1 && confirm('هل أنت متأكد من حذف هذا المربع؟')) {
-                geminiData.splice(index, 1);
-                renderGeminiGrid();
-                closeGeminiModal();
-            }
+            const msgHTML = `<div style="border-bottom:1px solid #ccc; margin-bottom:5px; padding-bottom:5px;">
+                                <strong>${name}:</strong> ${msg}
+                             </div>`;
+            adminBox.innerHTML += msgHTML;
+            
+            alert(currentLang === 'ar' ? 'تم إرسال رسالتك بنجاح للإدارة!' : 'Message sent successfully!');
+            document.getElementById('student-msg').value = '';
+            document.getElementById('student-name').value = '';
         }
     </script>
 </body>
